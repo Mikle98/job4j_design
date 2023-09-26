@@ -1,4 +1,5 @@
 # job4j_design
+<<<<<<< HEAD
 
 ## О проекте
 
@@ -34,3 +35,5 @@
 28. LSP
 29. ISP
 30. DIP
+=======
+>>>>>>> origin/master
