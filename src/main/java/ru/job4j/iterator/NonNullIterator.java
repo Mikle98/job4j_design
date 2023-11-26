@@ -22,10 +22,9 @@ public class NonNullIterator implements Iterator<Integer> {
 
     @Override
     public Integer next() {
-        if (index >= data.length) {
+        if (hasNext()) {
             throw new NoSuchElementException();
         }
-        hasNext();
         return data[index++];
     }
 
