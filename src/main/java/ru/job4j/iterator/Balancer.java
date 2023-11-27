@@ -1,0 +1,19 @@
+package ru.job4j.iterator;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
+public class Balancer {
+    public static void split(List<ArrayList<Integer>> nodes, Iterator<Integer> source) {
+        int count = 0;
+        while (source.hasNext()) {
+            if (count <= 0) {
+                count = nodes.size();
+            }
+            count--;
+            nodes.get(count).add(source.next());
+        }
+    }
+}
