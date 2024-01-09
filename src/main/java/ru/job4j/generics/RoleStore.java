@@ -4,25 +4,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RoleStore<T extends Base> implements Store<T> {
-    private final Map<String, T> storage = new HashMap<>();
+    private final MemStore<T> memStore = new MemStore<>();
 
     @Override
     public void add(T model) {
-        storage.putIfAbsent(model.getId(), model);
+        memStore.add(model);
     }
 
     @Override
     public boolean replace(String id, T model) {
-        return storage.replace(id, storage.get(id), model);
+        return memStore.replace(id, model);
     }
 
     @Override
     public void delete(String id) {
-        storage.remove(id);
+        memStore.delete(id);
     }
 
     @Override
     public T findById(String id) {
-        return storage.get(id);
+        return memStore.findById(id);
     }
 }
