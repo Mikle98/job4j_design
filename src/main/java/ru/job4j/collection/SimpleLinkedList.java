@@ -45,13 +45,14 @@ public class SimpleLinkedList<E> implements SimpleLinked<E> {
     public Iterator<E> iterator() {
         return new Iterator<>() {
             int index = modCount;
-            Node<E> tmplHead = new Node<>(null, head);
+            Node<E> tmplHead = head;
+            E rsl;
             @Override
             public boolean hasNext() {
                 if (modCount != index) {
                     throw new ConcurrentModificationException();
                 }
-                return tmplHead.next != null;
+                return tmplHead != null;
             }
 
             @Override
@@ -59,8 +60,9 @@ public class SimpleLinkedList<E> implements SimpleLinked<E> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
+                rsl = tmplHead.item;
                 tmplHead = tmplHead.next;
-                return tmplHead.item;
+                return rsl;
             }
         };
     }
