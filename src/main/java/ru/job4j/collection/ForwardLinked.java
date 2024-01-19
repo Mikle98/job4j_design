@@ -55,6 +55,7 @@ public class ForwardLinked<T> implements Iterable<T> {
         } else {
             head = null;
         }
+        size--;
         modCount++;
         return rsl;
     }
