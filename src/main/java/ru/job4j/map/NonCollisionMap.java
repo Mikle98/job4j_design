@@ -121,8 +121,6 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
 
     public static void main(String[] args) {
         NonCollisionMap<Iterator, String> map = new NonCollisionMap<>();
-        //Integer x = null;
-        //System.out.println(x.hashCode());
         System.out.println(map.hash(0));
         System.out.println(map.hash(65535));
         System.out.println(map.hash(65536));
