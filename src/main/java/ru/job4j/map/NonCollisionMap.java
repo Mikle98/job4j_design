@@ -3,6 +3,7 @@ package ru.job4j.map;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
     private static final float LOAD_FACTOR = 0.75f;
@@ -21,14 +22,12 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
         if (capacity * LOAD_FACTOR <= count) {
             expand();
         }
-        int index = key == null ? 0 : getIndexKey(key.hashCode());
-        if (index != -1) {
-            if (table[index] == null) {
-                table[index] = new MapEntry<>(key, value);
-                rsl = true;
-                count++;
-                modCount++;
-            }
+        int index = getIndexKey(Objects.hashCode(key));
+        if (table[index] == null) {
+            table[index] = new MapEntry<>(key, value);
+            count++;
+            modCount++;
+            rsl = true;
         }
         return rsl;
     }
@@ -43,13 +42,10 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
 
     private void expand() {
         int index;
-        K key;
         MapEntry<K, V>[] newTable = new MapEntry[capacity * 2];
         capacity *= 2;
-        Iterator<K> oldKey = iterator();
-        while (oldKey.hasNext()) {
-            key = oldKey.next();
-            index = key == null ? 0 : getIndexKey(key.hashCode());
+        for (K key : this) {
+            index = getIndexKey(Objects.hashCode(key));
             newTable[index] = new MapEntry<>(key, get(key));
         }
         table = newTable;
@@ -57,17 +53,27 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
 
     @Override
     public V get(K key) {
-        return searchKey(key) != -1 ? table[searchKey(key)].value : null;
+        V rsl = null;
+        int index = getIndexKey(Objects.hashCode(key)) % table.length;
+        if (table[index] != null
+                && Objects.hashCode(table[index].key) == Objects.hashCode(key)
+                && Objects.equals(table[index].key, key)) {
+            rsl = table[index].value;
+        }
+        return rsl;
     }
 
     @Override
     public boolean remove(K key) {
         boolean rsl = false;
-        if (searchKey(key) != -1) {
-            table[searchKey(key)] = null;
-            rsl = true;
+        int index = getIndexKey(Objects.hashCode(key)) % table.length;
+        if (table[index] != null
+                && Objects.hashCode(table[index].key) == Objects.hashCode(key)
+                && Objects.equals(table[index].key, key)) {
+            table[index] = null;
             count--;
             modCount++;
+            rsl = true;
         }
         return rsl;
     }
@@ -113,21 +119,10 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
         return indexFor(hash(keyHashCode));
     }
 
-    private int searchKey(K key) {
-        int rsl = -1;
-        int index = key == null ? 0 : getIndexKey(key.hashCode()) % table.length;
-        if (table[index] != null) {
-            if (key == null || (table[index].key != null && table[index].key.hashCode() == key.hashCode())) {
-                if ((key == null && table[index].key == null) || table[index].key.equals(key)) {
-                    rsl = index;
-                }
-            }
-        }
-        return rsl;
-    }
-
     public static void main(String[] args) {
         NonCollisionMap<Iterator, String> map = new NonCollisionMap<>();
+        //Integer x = null;
+        //System.out.println(x.hashCode());
         System.out.println(map.hash(0));
         System.out.println(map.hash(65535));
         System.out.println(map.hash(65536));
