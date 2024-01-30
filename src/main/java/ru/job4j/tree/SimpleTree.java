@@ -13,8 +13,9 @@ public class SimpleTree<E> implements Tree<E> {
     @Override
     public boolean add(E parent, E child) {
         boolean result = false;
-        if (findBy(parent).isPresent()) {
-            Node<E> node = findBy(parent).get();
+        Optional<Node<E>> findBy = findBy(parent);
+        if (findBy.isPresent()) {
+            Node<E> node = findBy.get();
             if (!root.children.contains(child)) {
                 node.children.add(new Node<>(child));
             }
