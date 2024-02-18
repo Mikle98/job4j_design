@@ -19,7 +19,7 @@ public class LogFilter {
         List<String> list = new ArrayList<>();
         try (BufferedReader input = new BufferedReader(new FileReader("data/log.txt"))) {
             input.lines().forEach(line -> {
-                if (line.split(" ")[line.split(" ").length - 2].equals("404")) {
+                if ("404".equals(line.split(" ")[line.split(" ").length - 2])) {
                     list.add(line);
                 }
             });
