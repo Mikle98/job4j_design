@@ -13,8 +13,13 @@ public class Dir {
         }
         for (File subfile : file.listFiles()) {
             if (subfile.isFile()) {
-                System.out.println("file name " + subfile.getName());
-                System.out.println("size " + subfile.length() + "KB");
+                System.out.println((new StringBuilder())
+                        .append("file name ")
+                        .append(subfile.getName()));
+                System.out.println((new StringBuilder())
+                        .append("size ")
+                        .append(subfile.length())
+                        .append("KB"));
             }
         }
     }
