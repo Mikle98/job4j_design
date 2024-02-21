@@ -1,46 +1,29 @@
 package ru.job4j.io;
 
 import java.io.*;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.function.Predicate;
 
 public class Analysis {
     public void unavailable(String source, String target) {
-        Predicate condition = new Predicate() {
-            boolean writeStart = true;
-            boolean writeEnd = false;
-            boolean write;
-            @Override
-            public boolean test(Object o) {
-                write = false;
-                if (writeStart && ("400".equals(o) || "500".equals(o))) {
-                    writeStart = false;
-                    writeEnd = true;
-                    write = true;
-                }
-                if (writeEnd && ("200".equals(o) || "300".equals(o))) {
-                    writeEnd = false;
-                    writeStart = true;
-                    write = true;
-                }
-                return write;
-            }
-        };
+        boolean write = true;
+        List<String> list = new LinkedList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(source));
              BufferedWriter writer = new BufferedWriter(new FileWriter(target))) {
-            reader.lines()
-                    .filter(line -> condition.test(line.split(" ")[0]))
-                    .forEach(line -> {
-                                try {
-                                    writer.write(line.split(" ")[1] + ";");
-                                    if ("200".equals(line.split(" ")[0])
-                                        || "300".equals(line.split(" ")[0])) {
-                                        writer.write("\n");
-                                    }
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                    );
+            reader.lines().forEach(list::add);
+            for (String str : list) {
+                if (write && ("400".equals(str.split(" ")[0])
+                        || "500".equals(str.split(" ")[0]))) {
+                    writer.write(str.split(" ")[1] + ";");
+                    write = false;
+                }
+                if (!write && ("200".equals(str.split(" ")[0])
+                        || "300".equals(str.split(" ")[0]))) {
+                    writer.write(str.split(" ")[1] + ";\n");
+                    write = true;
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
