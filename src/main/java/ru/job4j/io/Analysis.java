@@ -15,12 +15,12 @@ public class Analysis {
             for (String str : list) {
                 if (write && ("400".equals(str.split(" ")[0])
                         || "500".equals(str.split(" ")[0]))) {
-                    writer.write(str.split(" ")[1] + ";");
+                    writer.write(String.format("%s%s", str.split(" ")[1], ";"));
                     write = false;
                 }
                 if (!write && ("200".equals(str.split(" ")[0])
                         || "300".equals(str.split(" ")[0]))) {
-                    writer.write(str.split(" ")[1] + ";\n");
+                    writer.write(String.format("%s%s%n", str.split(" ")[1], ";"));
                     write = true;
                 }
             }
