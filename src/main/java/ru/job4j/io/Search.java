@@ -1,5 +1,6 @@
 package ru.job4j.io;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,6 +10,7 @@ import java.util.function.Predicate;
 
 public class Search {
     public static void main(String[] args) throws IOException {
+        validArgs(args);
         Path start = Paths.get(".");
         search(start, path -> path.toFile().getName().endsWith(".js"));
     }
@@ -17,5 +19,18 @@ public class Search {
         SearchFiles searcher = new SearchFiles(condition);
         Files.walkFileTree(root, searcher);
         return searcher.getPaths();
+    }
+
+    public static void validArgs(String[] args) {
+        if (args.length != 2) {
+            throw new IllegalArgumentException("Need two arguments");
+        }
+        File file = new File(args[0]);
+        if (!file.isDirectory()) {
+            throw new IllegalArgumentException("First argument must be a directory");
+        }
+        if (!args[1].matches("\\.[A-Za-z]{1,3}")) {
+            throw new IllegalArgumentException("Second argument must be a file extension");
+        }
     }
 }
