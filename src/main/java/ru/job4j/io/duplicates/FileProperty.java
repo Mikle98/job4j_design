@@ -1,25 +1,12 @@
 package ru.job4j.io.duplicates;
 
-import ru.job4j.io.SearchFiles;
-
-import java.io.IOException;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
-import java.util.function.Predicate;
 
-public class FileProperty extends SimpleFileVisitor<Path> {
+public class FileProperty {
+
     private long size;
 
     private String name;
-
-    private Map<FileProperty, Path> setPath = new HashMap<>();
-
-    private Set<String> duplFile = new TreeSet<>();
-
-    final private Predicate<BasicFileAttributes> condition = BasicFileAttributes::isRegularFile;
 
     public FileProperty(long size, String name) {
         this.size = size;
@@ -57,22 +44,5 @@ public class FileProperty extends SimpleFileVisitor<Path> {
     @Override
     public int hashCode() {
         return Objects.hash(size, name);
-    }
-
-    @Override
-    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-        if (condition.test(attrs)) {
-            FileProperty fileProperty = new FileProperty(attrs.size(), file.getFileName().toString());
-            if (setPath.containsKey(fileProperty)) {
-                duplFile.add(String.format("%s - %d%n", setPath.get(fileProperty), fileProperty.getSize()));
-                duplFile.add(String.format("%s - %d%n", file.toAbsolutePath(), attrs.size()));
-            }
-            setPath.put(fileProperty, file.toAbsolutePath());
-        }
-        return super.visitFile(file, attrs);
-    }
-
-    public String getDupl() {
-        return duplFile.toString();
     }
 }

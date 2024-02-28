@@ -6,8 +6,8 @@ import java.nio.file.Path;
 
 public class DuplicatesFinder {
     public static void main(String[] args) throws IOException {
-        FileProperty fileProperty = new FileProperty(0L, "");
-        Files.walkFileTree(Path.of("./"), fileProperty);
-        System.out.println(fileProperty.getDupl());
+        DuplicateSearchAndValid duplSearch = new DuplicateSearchAndValid();
+        Files.walkFileTree(Path.of("./"), duplSearch);
+        System.out.println(duplSearch.getDupl());
     }
 }
