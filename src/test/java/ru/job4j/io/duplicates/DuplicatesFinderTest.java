@@ -15,9 +15,10 @@ class DuplicatesFinderTest {
         Files.walkFileTree(Path.of("./JAVA"), duplSearch);
         String rsl = duplSearch.getDupl();
         String newLine = System.lineSeparator();
-        assertThat(rsl).isEqualTo("[C:\\projects\\job4j_design\\.\\JAVA\\Text Document.txt - 4"
-                + newLine + ", C:\\projects\\job4j_design\\.\\JAVA\\Новая папка\\Text Document.txt - 4"
-                + newLine + ", C:\\projects\\job4j_design\\.\\JAVA\\Новая папка\\Новая папка\\Text Document.txt - 4"
+        Path path = Path.of("./JAVA").toAbsolutePath();
+        assertThat(rsl).isEqualTo("[" + path + "\\Text Document.txt - 4"
+                + newLine + ", " + path + "\\Новая папка\\Text Document.txt - 4"
+                + newLine + ", " + path + "\\Новая папка\\Новая папка\\Text Document.txt - 4"
                 + newLine + "]");
     }
 }
