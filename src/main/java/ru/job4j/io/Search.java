@@ -29,7 +29,7 @@ public class Search {
         if (!file.isDirectory()) {
             throw new IllegalArgumentException("First argument must be a directory");
         }
-        if (!args[1].matches("\\.[A-Za-z]{1,3}")) {
+        if (!args[1].matches("\\..+")) {
             throw new IllegalArgumentException("Second argument must be a file extension");
         }
     }
