@@ -24,6 +24,13 @@ public class ArgsName {
     }
 
     public static ArgsName of(String[] args) {
+        paramsValid(args);
+        ArgsName names = new ArgsName();
+        names.parse(args);
+        return names;
+    }
+
+    public static void paramsValid(String[] args) {
         if (args.length == 0) {
             throw new IllegalArgumentException("Arguments not passed to program");
         }
@@ -41,9 +48,6 @@ public class ArgsName {
                 throw new IllegalArgumentException(String.format("Error: This argument '%s' does not contain a key", arg));
             }
         }
-        ArgsName names = new ArgsName();
-        names.parse(args);
-        return names;
     }
 
     public static void main(String[] args) {
