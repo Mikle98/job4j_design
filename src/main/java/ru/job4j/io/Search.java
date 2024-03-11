@@ -12,7 +12,7 @@ public class Search {
     public static void main(String[] args) throws IOException {
         validArgs(args);
         Path start = Paths.get(".");
-        search(start, path -> path.toFile().getName().endsWith(".js"));
+        System.out.println(search(start, path -> !path.toFile().getName().endsWith(".js")));
     }
 
     public static List<Path> search(Path root, Predicate<Path> condition) throws IOException {
