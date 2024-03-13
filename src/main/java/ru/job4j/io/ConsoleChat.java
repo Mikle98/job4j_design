@@ -21,16 +21,15 @@ public class ConsoleChat {
 
     public void run() {
         Scanner scanner = new Scanner(System.in);
-        List<String> answerBot = new ArrayList<>(readPhrases());
         List<String> dialogArhive = new ArrayList<>();
         System.out.println("Enter text");
         String userText = scanner.nextLine();
         dialogArhive.add(userText);
-        while (!userText.equals(OUT)) {
+        while (!OUT.equals(userText)) {
             if (dialogArhive.lastIndexOf(STOP) <= dialogArhive.lastIndexOf(CONTINUE)) {
-                int index = new Random().nextInt(0, answerBot.size());
-                System.out.println(answerBot.get(index));
-                dialogArhive.add(answerBot.get(index));
+                int index = new Random().nextInt(0, readPhrases().size());
+                System.out.println(readPhrases().get(index));
+                dialogArhive.add(readPhrases().get(index));
             }
             userText = scanner.nextLine();
             dialogArhive.add(userText);
