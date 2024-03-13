@@ -22,14 +22,15 @@ public class ConsoleChat {
     public void run() {
         Scanner scanner = new Scanner(System.in);
         List<String> dialogArhive = new ArrayList<>();
+        List<String> answerBot = readPhrases();
         System.out.println("Enter text");
         String userText = scanner.nextLine();
         dialogArhive.add(userText);
         while (!OUT.equals(userText)) {
             if (dialogArhive.lastIndexOf(STOP) <= dialogArhive.lastIndexOf(CONTINUE)) {
-                int index = new Random().nextInt(0, readPhrases().size());
-                System.out.println(readPhrases().get(index));
-                dialogArhive.add(readPhrases().get(index));
+                int index = new Random().nextInt(0, answerBot.size());
+                System.out.println(answerBot.get(index));
+                dialogArhive.add(answerBot.get(index));
             }
             userText = scanner.nextLine();
             dialogArhive.add(userText);
