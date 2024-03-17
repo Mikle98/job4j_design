@@ -1,11 +1,26 @@
 package ru.job4j.io.serialization.java;
 
+import javax.xml.bind.annotation.*;
+import java.util.Arrays;
+
+@XmlRootElement(name = "myClass")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class MyClass {
+    @XmlAttribute
     private int integer;
+    @XmlAttribute
     private boolean bool;
+    @XmlAttribute
     private String str;
+    @XmlElement
     private MyClass2 myClass2;
+    @XmlElement
+    @XmlElementWrapper(name = "arrI")
     private int[] arrInt;
+
+    public MyClass() {
+
+    }
 
     public MyClass(int integer, boolean bool, String str, MyClass2 myClass2, int[] arrInt) {
         this.integer = integer;
@@ -13,5 +28,16 @@ public class MyClass {
         this.str = str;
         this.myClass2 = myClass2;
         this.arrInt = arrInt;
+    }
+
+    @Override
+    public String toString() {
+        return "MyClass{"
+               + "integer=" + integer
+               + ", bool=" + bool
+               + ", str='" + str + '\''
+               + ", myClass2=" + myClass2
+               + ", arrInt=" + Arrays.toString(arrInt)
+               + '}';
     }
 }
