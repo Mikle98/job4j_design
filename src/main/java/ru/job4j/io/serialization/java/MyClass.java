@@ -2,6 +2,7 @@ package ru.job4j.io.serialization.java;
 
 import javax.xml.bind.annotation.*;
 import java.util.Arrays;
+import org.json.JSONObject;
 
 @XmlRootElement(name = "myClass")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -39,5 +40,25 @@ public class MyClass {
                + ", myClass2=" + myClass2
                + ", arrInt=" + Arrays.toString(arrInt)
                + '}';
+    }
+
+    public int getInteger() {
+        return integer;
+    }
+
+    public boolean isBool() {
+        return bool;
+    }
+
+    public String getStr() {
+        return str;
+    }
+
+    public MyClass2 getMyClass2() {
+        return myClass2;
+    }
+
+    public int[] getArrInt() {
+        return arrInt;
     }
 }

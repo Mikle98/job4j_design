@@ -1,6 +1,7 @@
 package ru.job4j.io.serialization.java;
 
 import javax.xml.bind.annotation.*;
+import org.json.JSONObject;
 
 @XmlRootElement(name = "myClass2")
 public class MyClass2 {
@@ -24,5 +25,13 @@ public class MyClass2 {
                + "i=" + i
                + ", str='" + str + '\''
                + '}';
+    }
+
+    public int getI() {
+        return i;
+    }
+
+    public String getStr() {
+        return str;
     }
 }
