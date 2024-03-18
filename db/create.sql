@@ -1,14 +1,22 @@
-create table users(
-	id serial primary key,
-	role varchar(255) references roles(name)
-);
-
 create table roles(
 	name varchar(255) primary key
 );
 
 create table rules(
 	name varchar(255) primary key
+);
+
+create table states(
+	id serial primary key
+);
+
+create table categories(
+	id serial primary key
+);
+
+create table users(
+	id serial primary key,
+	role varchar(255) references roles(name)
 );
 
 create table items(
@@ -26,14 +34,6 @@ create table comments(
 create table attachs(
 	id serial primary key,
 	item int references items(id)
-);
-
-create table states(
-	id serial primary key
-);
-
-create table categories(
-	id serial primary key
 );
 
 create table roles_rules(
