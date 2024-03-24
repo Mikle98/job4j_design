@@ -27,11 +27,22 @@ create trigger nds_trigger
 	for each statement
 	execute procedure nds();
 --Триггер должен срабатывать до вставки данных и насчитывать налог на товар (нужно прибавить налог к цене товара). Здесь используем row уровень.
+create
+or replace function nds_row()
+	returns trigger as
+$$
+	begin
+		new.price = new.price - new.price * 0.2;
+        return NEW;
+	end;
+$$
+LANGUAGE 'plpgsql';
+
 create trigger nds_before_add_trigger
 	before insert
 	on products
 	for each row
-	execute procedure nds();
+	execute procedure nds_row();
 --Нужно написать триггер на row уровне, который сразу после вставки продукта в таблицу products, будет заносить имя, цену и текущую дату в таблицу history_of_price.
 create table history_of_price
 (
@@ -58,7 +69,5 @@ language 'plpgsql'
 create trigger fullTable_trigger
 	after insert
 	on products
-	referencing new table as
-		inserted
 	for each row
 	execute procedure fullTable();
